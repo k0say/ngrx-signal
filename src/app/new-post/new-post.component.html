@@ -1,0 +1,23 @@
+<form [formGroup]="formGroup" class="example-form" (ngSubmit)="submitNewPost()">
+  <mat-form-field class="example-full-width">
+    <mat-label>Id</mat-label>
+    <input matInput placeholder="Insert Id" formControlName="id" />
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>UserId</mat-label>
+    <input matInput placeholder="Ex. It makes me feel..." formControlName="userId"/>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Title</mat-label>
+    <input matInput placeholder="Ex. It makes me feel..." formControlName="title"/>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Body</mat-label>
+    <input matInput placeholder="Ex. It makes me feel..." formControlName="body"/>
+  </mat-form-field>
+
+  <button mat-button type="submit">SUBMIT</button>
+</form>
