@@ -1,9 +1,9 @@
-import { Component, effect, inject, viewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PostsStore } from './store/posts.store';
 import { CommonModule } from '@angular/common';
 import { PostListComponent } from './post-list/post-list.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatButtonToggleChange, MatButtonToggleGroup, MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NewPostComponent } from "./new-post/new-post.component";
 
 @Component({
@@ -21,14 +21,8 @@ import { NewPostComponent } from "./new-post/new-post.component";
 })
 export class AppComponent {
   store = inject(PostsStore);
-  filter = viewChild.required(MatButtonToggleGroup);
 
   constructor() {
-    effect(() => {
-      const filter = this.filter();
-
-      filter.value = this.store.filter();
-    })
   }
 
   ngOnInit(): void {

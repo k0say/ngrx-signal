@@ -2,13 +2,7 @@ import { inject, Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, retry, catchError, delay, take } from 'rxjs/operators';
 import { firstValueFrom, Observable, of, throwError } from 'rxjs';
-
-interface Post {
-  userId: string;
-  id: string;
-  title: string;
-  body: string;
-}
+import { Post } from './post.interface';
 
 @Injectable({
   providedIn: 'root',

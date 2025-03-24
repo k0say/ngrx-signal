@@ -1,4 +1,4 @@
-<div class="container">
+<div class="d-grid m-3 gap-2">
   <app-new-post></app-new-post>
 
   @if(!store.isLoading()){
@@ -7,6 +7,7 @@
     (change)="onFilterPosts($event)"
     name="fontStyle"
     aria-label="Font Style"
+    style="width: max-content;"
   >
     <mat-button-toggle value="666">1</mat-button-toggle>
     <mat-button-toggle value="2">2</mat-button-toggle>

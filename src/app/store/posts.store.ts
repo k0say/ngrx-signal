@@ -1,4 +1,4 @@
-import { computed, inject } from '@angular/core';
+import { computed, effect, inject } from '@angular/core';
 import {
   patchState,
   signalStore,
@@ -6,22 +6,18 @@ import {
   withMethods,
   withComputed,
   withHooks,
+  getState,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import {
+  addEntities,
   addEntity,
-  removeAllEntities,
+  removeEntity,
   withEntities,
 } from '@ngrx/signals/entities';
 import { DataService } from '../service/data.service';
-import { pipe, switchMap, tap } from 'rxjs';
-
-interface Post {
-  userId: string;
-  id: string;
-  title: string;
-  body: string;
-}
+import { pipe, tap } from 'rxjs';
+import { Post } from '../service/post.interface';
 
 type PostState = {
   posts: Post[];
@@ -42,38 +38,42 @@ export const PostsStore = signalStore(
     addPost(post: Post): void {
       patchState(store, addEntity(post));
     },
+    deletePost(postId: number): void {
+      patchState(store, removeEntity(postId));
+    },
     async loadAdd() {
       patchState(store, { isLoading: true });
       const posts = await postService.getAll();
-      patchState(store, { posts, isLoading: false });
+      patchState(store, addEntities(posts), { isLoading: false });
     },
     updateFilter(filter: any) {
       patchState(store, { filter });
     },
-    savePost: rxMethod<Post[]>(
+    savePost: rxMethod<Post>(
       pipe(
         tap((x) => {
-          console.log("DAJE ", x);
-          patchState(store, { posts: [...store.posts(), ...x] });
+          console.log('[savePost] ', x);
+          // patchState(store, { posts: [...store.posts(), ...x] });
         })
       )
     ),
   })),
   withComputed((store) => ({
     filteredTodos: computed(() => {
-      const posts = store.posts();
+      const posts = store.entities();
 
       const comparedValue = store.filter() ? store.filter() : '';
       if (store.filter()) return posts.filter((x) => x.id == comparedValue);
 
-      // return posts;
-      return posts.sort((a, b) => parseInt(b.id) - parseInt(a.id));
+      return posts.sort((a, b) => b.id - a.id);
     }),
   })),
   withHooks({
     onInit(store) {
-      store.savePost(store.entities);
-      console.log('DALL ', store.posts());
+      effect(() => {
+        const state = getState(store);
+        console.log('[GET STATE] ', state);
+      });
     },
   })
 );

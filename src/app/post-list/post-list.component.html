@@ -1,10 +1,21 @@
-<mat-list>
+<mat-list class="d-flex flex-column w-50 gap-3">
   @for(post of store.filteredTodos(); track post.id) {
-    <mat-list-item>
-      <span matListItemTitle>Id: {{post.id}}</span>
-      <span matListItemLine>Title: {{post.title}}</span>
-      <span matListItemLine>UserId: {{post.userId}}</span>
-      <span matListItemLine>Body: {{post.body}}</span>
-    </mat-list-item>
+  <!-- <div class="d-flex flex-row w-50 gap-3"> -->
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <mat-list-item>
+          <span matListItemTitle>Id: {{ post.id }}</span>
+          <span matListItemLine>Title: {{ post.title }}</span>
+          <span matListItemLine>UserId: {{ post.userId }}</span>
+          <span matListItemLine>Body: {{ post.body }}</span>
+        </mat-list-item>
+
+        <button mat-fab aria-label="Example icon button with a delete icon" (click)="deletePost(post.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-content>
+    </mat-card>
+  <!-- </div> -->
+
   }
 </mat-list>
